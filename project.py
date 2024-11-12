@@ -1,52 +1,83 @@
+# import socket
+# import platform
+# import shutil
+
+# def get_system():
+#     return platform.system()
+
+
+# def get_ip_address():
+#     hostname = socket.gethostname()
+#     ip_address = socket.gethostbyname(hostname)
+#     return ip_address
+
+# def get_divice_name():
+#     return platform.node()
+
+# def get_processor():
+#     return platform.processor()
+
+
+# def get_window_version():
+#     return platform.version()
+
+
+# def get_system_type():
+#     return platform.architecture()
+
+
+
+# def check_disk_usage():
+#     system = platform.system()
+
+
+#     path = "/" if system != "Windows" else "C:\\"
+#     total, used, free = shutil.disk_usage(path)
+
+#     total_gb = total / (1024 ** 3)
+#     used_gb = used / (1024 ** 3)
+#     free_gb = free / (1024 ** 3)
+
+#     return total_gb, used_gb, free_gb, system
+
+# total_gb, used_gb, free_gb, system = check_disk_usage()
+
+
+# print("System:", get_system())
+# print("Total: {:.2f} GB".format(total_gb))
+# print("Used: {:.2f} GB".format(used_gb))
+# print("Free: {:.2f} GB".format(free_gb))
+
+# print("IP Address:", get_ip_address())
+# print("Divice Name:", get_divice_name())
+# print("Processor:", get_processor())
+# print("Window Version:", get_window_version())
+# print("System Type:", get_system_type())
+
+
+
+# shutdown and restart computer
+import os
 import tkinter as tk
 
-# Function to evaluate the expression
-def evaluate_expression():
-    try:
-        result = str(eval(entry.get()))
-        entry.delete(0, tk.END)
-        entry.insert(tk.END, result)
-    except Exception:
-        entry.delete(0, tk.END)
-        entry.insert(tk.END, "Error")
+Mywindow = tk.Tk()
+Mywindow.title("Shutdown pc")
+Mywindow.geometry("500x500")
+frame = tk.Frame(Mywindow, width=500, height=500)
+frame.pack()
+def shutdown_computer():
+    os.system("shutdown /s /t 1") 
 
-# Function to update expression in the entry widget
-def update_expression(value):
-    entry.insert(tk.END, value)
+def restart_computer():
+    os.system("shutdown /r /t 1")
+    
 
-# Function to clear the entry widget
-def clear_entry():
-    entry.delete(0, tk.END)
 
-# Setting up the main window
-window = tk.Tk()
-window.title("Calculator")
+Button_shutdown = tk.Button(frame, text="Shutdown", font=("Arail",10), command=shutdown_computer, bg="red",fg="white")
+Button_shutdown.place(x=100,y=100, width=100, height=50)
 
-# Entry widget for display
-entry = tk.Entry(window, width=16, font=("Arial", 24), borderwidth=2, relief="solid")
-entry.grid(row=0, column=0, columnspan=4)
+Button_restart = tk.Button(frame, text="Restart", font=("Arail",10), command=restart_computer, bg="green",fg="white")
+Button_restart.place(x=300,y=100, width=100, height=50)
 
-# Button layout
-buttons = [
-    ('7', 1, 0), ('8', 1, 1), ('9', 1, 2), ('/', 1, 3),
-    ('4', 2, 0), ('5', 2, 1), ('6', 2, 2), ('*', 2, 3),
-    ('1', 3, 0), ('2', 3, 1), ('3', 3, 2), ('-', 3, 3),
-    ('0', 4, 0), ('.', 4, 1), ('+', 4, 3),
-    ('C', 4, 2), ('=', 5, 0, 4)  # Span "=" button across 4 columns
-]
 
-# Creating and placing buttons
-for (text, row, col, *cs) in buttons:
-    colspan = cs[0] if cs else 1
-    if text == '=':
-        btn = tk.Button(window, text=text, width=32, height=2, font=("Arial", 18),
-                        command=evaluate_expression)
-    elif text == 'C':
-        btn = tk.Button(window, text=text, width=8, height=2, font=("Arial", 18),
-                        command=clear_entry)
-    else:
-        btn = tk.Button(window, text=text, width=8, height=2, font=("Arial", 18),
-                        command=lambda val=text: update_expression(val))
-    btn.grid(row=row, column=col, columnspan=colspan)
-
-window.mainloop()
+Mywindow.mainloop()
